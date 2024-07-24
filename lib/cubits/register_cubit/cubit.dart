@@ -6,18 +6,24 @@ class AuthCubit extends Cubit<AuthState> {
   AuthCubit() : super(AuthInitial());
 
   Future<void> signUp(String email, String password) async {
-    print("dfsfsdfdfdsfds: $email");
+    print("Attempting to sign up with email: $email");
     emit(AuthLoading());
+
     try {
-      print("EMAIL22: $email");
+      // Attempt to create a user with email and password
       UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
-      print("EMAIL: $email");
+
+      // Log the successful email sign-up
+      print("User signed up with email: ${userCredential.user?.email}");
+
+      // Emit success state with the user credential
       emit(AuthSuccess(userCredential.user!));
     } catch (e) {
-      print("ERRORRRR: ${e.toString()}");
+      // Log and handle errors
+      print("Sign-up error: ${e.toString()}");
       emit(AuthFailure(e.toString()));
     }
   }
