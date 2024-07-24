@@ -5,7 +5,7 @@ import 'package:form_task/cubits/register_cubit/states.dart';
 class AuthCubit extends Cubit<AuthState> {
   AuthCubit() : super(AuthInitial());
 
-  Future<void> signUp(String email, String password) async {
+  Future<User?> signUp(String email, String password) async {
     print("Attempting to sign up with email: $email");
     emit(AuthLoading());
 
@@ -18,13 +18,14 @@ class AuthCubit extends Cubit<AuthState> {
 
       // Log the successful email sign-up
       print("User signed up with email: ${userCredential.user?.email}");
-
       // Emit success state with the user credential
       emit(AuthSuccess(userCredential.user!));
+      return userCredential.user;
     } catch (e) {
       // Log and handle errors
       print("Sign-up error: ${e.toString()}");
       emit(AuthFailure(e.toString()));
     }
+    return null;
   }
 }

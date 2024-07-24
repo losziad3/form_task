@@ -5,7 +5,7 @@ import 'package:form_task/cubits/login_cubit/states.dart';
 class LoginCubit extends Cubit<LoginState> {
   LoginCubit() : super(AuthInitial());
 
-  Future<void> login(String email, String password) async {
+  Future<User?> login(String email, String password) async {
     emit(AuthLoading());
     try {
       UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -13,8 +13,10 @@ class LoginCubit extends Cubit<LoginState> {
         password: password,
       );
       emit(AuthSuccess(userCredential.user!));
+      return userCredential.user;
     } catch (e) {
       emit(AuthFailure(e.toString()));
     }
+    return null;
   }
 }

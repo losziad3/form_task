@@ -96,13 +96,12 @@ class LoginScreen extends StatelessWidget {
                         text: 'Login',
                         color: Colors.blue,
                         onTap: () {
-                          // if (_formKey.currentState!.validate()) {
-                          //   BlocProvider.of<LoginCubit>(context).login(
-                          //     _emailController.text,
-                          //     _passwordController.text,
-                          //   );
-                          // }
-                          context.go(Routes.kFormScreen);
+                          if (_formKey.currentState!.validate()) {
+                            BlocProvider.of<LoginCubit>(context).login(
+                              _emailController.text,
+                              _passwordController.text,
+                            );
+                          }
                         },
                       ),
                       SizedBox(height: screenHeight * .03),
